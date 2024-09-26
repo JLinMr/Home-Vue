@@ -1,0 +1,376 @@
+<template>
+  <div class="home-container">
+    <div class="user-profile-container">
+      <div class="user-profile-image" v-motion-pop>
+        <img :src="profileImage" alt="头像" @click.stop="toggleInfo">
+        <span class="status-ball"></span>
+      </div>
+      <div class="user-name" v-motion-slide-left>
+        <h1>Hi,</h1>
+        <h1>I'm <span class="name-style">{{ userName }}</span></h1>
+      </div>
+    </div>
+    <div class="description">
+      <p ref="descriptionElement"></p>
+    </div>
+    <div class="contact-section" v-motion-pop>
+      <template v-for="contact in contacts" :key="contact.type">
+        <a v-if="contact.url" :href="contact.url" target="_blank" class="contact-item" :style="{ '--hover-color': contact.hoverColor }">
+          <i :class="contact.icon"></i>
+          <span class="tooltip">{{ contact.type }}</span>
+        </a>
+        <span v-else @click="toggleQRCode(contact.qrCode)" class="contact-item" :style="{ '--hover-color': contact.hoverColor }">
+          <i :class="contact.icon"></i>
+          <span class="tooltip">{{ contact.type }}</span>
+        </span>
+      </template>
+      <!-- 添加切换深色浅色的按钮 -->
+      <span class="contact-item" @click="toggleDarkMode" :style="{ '--hover-color': isDarkMode ? '#ffcc00' : '#666' }">
+        <i :class="darkModeIconClass"></i>
+        <span class="tooltip">{{ isDarkMode ? '浅色' : '深色' }}</span>
+      </span>
+    </div>
+    <Website />
+
+    <transition name="overlay-fade">
+      <div v-show="showAbout" class="overlay" @click="showAbout = false">
+        <transition name="qr-fade">
+          <AboutPage @close="showAbout = false" v-if="showAbout" />
+        </transition>
+      </div>
+    </transition>
+
+    <transition name="overlay-fade">
+      <div v-show="showQR" class="overlay" @click="hideQRCode">
+        <transition name="qr-fade">
+          <img ref="qrImageRef" v-if="showQR" :src="qrCodeSrc" alt="QR Code" class="qr-image" @click.stop>
+        </transition>
+      </div>
+    </transition>
+  </div>
+</template>
+
+<script setup>
+import { ref, onMounted } from 'vue';
+import contactsData from '../config/links.json';
+import Website from './Website.vue';
+import AboutPage from './AboutPage.vue';
+import Typed from 'typed.js';
+
+const contacts = ref(contactsData);
+const showQR = ref(false);
+const showAbout = ref(false);
+const qrCodeSrc = ref('');
+const profileImage = ref(import.meta.env.VITE_APP_PROFILE_IMAGE_URL);
+const userName = ref(import.meta.env.VITE_APP_USER_NAME);
+const descriptionElement = ref(null);
+
+const predefinedDescriptions = [
+  "你好鸭，欢迎来到我的主页！！",
+  "随时可以联系我，期待与你交流。",
+  "愿你历尽千帆，归来仍是少年。",
+  "梦想还是要有的，万一实现了呢？",
+  "I hope you have a happy day every day."
+];
+
+const initializeTyped = () => {
+  const typedInstance = new Typed(descriptionElement.value, {
+    strings: predefinedDescriptions,
+    typeSpeed: 120,
+    backSpeed: 80,
+    showCursor: true,
+    cursorChar: '|',
+    loop: true,
+  });
+  return typedInstance;
+};
+
+onMounted(() => {
+  initializeTyped();
+});
+
+const toggleQRCode = (qrCode) => {
+  qrCodeSrc.value = qrCode || '';
+  showQR.value = !showQR.value;
+};
+
+const hideQRCode = () => {
+  showQR.value = false;
+};
+
+const toggleInfo = () => {
+  showAbout.value = !showAbout.value;
+};
+
+const isDarkMode = ref(false);
+const darkModeIconClass = ref('fas fa-moon');
+
+const toggleDarkMode = () => {
+  isDarkMode.value = !isDarkMode.value;
+  document.body.classList.toggle('dark-mode', isDarkMode.value);
+
+  localStorage.setItem('darkMode', isDarkMode.value);
+
+  darkModeIconClass.value = isDarkMode.value ? 'fas fa-sun' : 'fas fa-moon';
+};
+
+onMounted(() => {
+  const savedDarkMode = localStorage.getItem('darkMode');
+  if (savedDarkMode !== null) {
+    isDarkMode.value = savedDarkMode === 'true';
+    document.body.classList.toggle('dark-mode', isDarkMode.value);
+  }
+
+  darkModeIconClass.value = isDarkMode.value ? 'fas fa-sun' : 'fas fa-moon';
+});
+</script>
+
+<style scoped>
+.home-container {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 30px;
+  width: 100%;
+
+  .user-profile-container {
+    display: flex;
+    align-items: center;
+    gap: 30px;
+  }
+
+  .user-profile-image {
+    display: flex;
+    border-radius: 50%;
+    box-shadow: 0 2px 8px var(--shadow-color);
+    padding: 5px;
+    border: 3px solid var(--border-color);
+    position: relative;
+
+    img {
+      width: 150px;
+      height: 150px;
+      border-radius: 50%;
+      background-size: cover;
+      background-position: center;
+    }
+
+    .status-ball {
+      position: absolute;
+      background: #00c800;
+      width: 2em;
+      height: 2em;
+      border-radius: 20px;
+      border: 3px solid #eee;
+      bottom: 5px;
+      right: 15px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      transition: all 0.3s ease;
+      z-index: 1;
+      cursor: pointer;
+      overflow: hidden;
+
+      &::before {
+        content: "在线中";
+        color: #00c800;
+        opacity: 0;
+        display: block;
+        transition: opacity 0.3s ease-in-out, color 0.1s ease-in-out;
+      }
+
+      &:hover {
+        width: 4.5em;
+        height: 2em;
+      }
+
+      &:hover::before {
+        opacity: 1;
+        color: #eee;
+      }
+    }
+  }
+
+  .user-name {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    font-size: 1.3em;
+
+    h1 {
+      margin: 0;
+    }
+  }
+
+  .name-style {
+    position: relative;
+
+    &:before {
+      position: absolute;
+      border-radius: 5px;
+      bottom: 0;
+      left: 50%;
+      transform: translate(-50%);
+      z-index: -1;
+      content: "";
+      background: #ffcc00ad;
+      height: 30%;
+      width: 110%;
+      display: inline-block;
+    }
+  }
+
+  .description {
+    display: flex;
+    min-height: 32px;
+    width: 100%;
+    max-width: 500px;
+    font-family: 'Georgia', serif;
+    font-size: 1.2rem;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease-in-out;
+
+    &::before,
+    &::after {
+      content: '"';
+      font-size: 1.5em;
+      color: #999;
+      margin: 0 10px;
+    }
+
+    p {
+      margin: 0;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+  }
+
+  .contact-section {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    padding: 5px 10px;
+    border: 1px solid transparent;
+    border-radius: var(--border-radius);
+    transition: all 0.3s ease-in-out;
+
+    .contact-item {
+      color: var(--text-color);
+      font-size: var(--icon-size);
+      cursor: pointer;
+      transition: transform 0.3s ease-in-out, color 0.3s ease-in-out;
+      width: calc(33.33% - 10px);
+      position: relative;
+
+      .fas.fa-moon {
+        width: 20px;
+        height: 20px;
+        display: inline-flex;
+        justify-content: center;
+        align-items: center;
+      }
+
+      &:hover {
+        transform: translateY(-5px) rotate(10deg);
+        color: var(--hover-color);
+
+        .tooltip {
+          opacity: 1;
+          width: auto;
+          transform: translateY(0);
+        }
+      }
+
+      .tooltip {
+        width: 0;
+        position: absolute;
+        z-index: 1;
+        bottom: 100%;
+        left: -100%;
+        opacity: 0;
+        transition: opacity 0.3s ease, transform 0.3s ease;
+        transform: translateY(10px);
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+    }
+
+    &:hover {
+      backdrop-filter: blur(3px);
+      border: 1px solid var(--border-color);
+      box-shadow: 0 2px 8px var(--shadow-color);
+    }
+  }
+
+  .qr-image {
+    width: 300px;
+    height: 300px;
+    background: white;
+    padding: 20px;
+    border-radius: var(--border-radius);
+    box-shadow: 0 4px 8px var(--shadow-color);
+  }
+
+  .overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(6px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+
+    &.overlay-fade-enter-active,
+    &.overlay-fade-leave-active {
+      transition: opacity 0.3s ease-in-out;
+    }
+
+    &.overlay-fade-enter-from,
+    &.overlay-fade-leave-to {
+      opacity: 0;
+    }
+  }
+
+  .qr-fade-enter-active,
+  .qr-fade-leave-active {
+    transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
+  }
+
+  .qr-fade-enter-from,
+  .qr-fade-leave-to {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+
+  .qr-fade-enter-to,
+  .qr-fade-leave-from {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .home-container {
+    gap: 15px;
+  }
+  .home-container .user-profile-container {
+    flex-direction: column;
+    gap: 0;
+  }
+
+  h1 {
+    font-size: 1.5em;
+  }
+}
+</style>

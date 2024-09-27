@@ -282,18 +282,18 @@ onMounted(() => {
 
         .tooltip {
           opacity: 1;
-          width: auto;
           transform: translateY(0);
         }
       }
 
       .tooltip {
-        width: 0;
+        width: 120px;
         position: absolute;
         z-index: 1;
         bottom: 100%;
-        left: -100%;
+        left: 50%;
         opacity: 0;
+        margin-left: -60px;
         transition: opacity 0.3s ease, transform 0.3s ease;
         transform: translateY(10px);
         white-space: nowrap;
@@ -333,7 +333,7 @@ onMounted(() => {
 
     &.overlay-fade-enter-active,
     &.overlay-fade-leave-active {
-      transition: opacity 0.3s ease-in-out;
+      transition: opacity 0.3s ease;
     }
 
     &.overlay-fade-enter-from,
@@ -344,19 +344,19 @@ onMounted(() => {
 
   .qr-fade-enter-active,
   .qr-fade-leave-active {
-    transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
+    transition: opacity 0.3s ease, transform 0.3s ease;
   }
 
   .qr-fade-enter-from,
   .qr-fade-leave-to {
     opacity: 0;
-    transform: scale(0.8);
+    transform: scale(0.8) translateY(50px);
   }
 
   .qr-fade-enter-to,
   .qr-fade-leave-from {
     opacity: 1;
-    transform: scale(1);
+    transform: scale(1) translateY(0);
   }
 }
 

@@ -1,5 +1,5 @@
 <template>
-  <div class="home-container">
+  <div class="content">
     <div class="user-profile-container">
       <div class="user-profile-image" v-motion-pop>
         <img :src="profileImage" alt="头像" @click.stop="toggleInfo">
@@ -126,13 +126,14 @@ onMounted(() => {
 </script>
 
 <style scoped>
-.home-container {
-  text-align: center;
+.content {
+  flex: 1;
   display: flex;
+  justify-content: center;
   flex-direction: column;
   align-items: center;
   gap: 30px;
-  width: 100%;
+  margin-top: 20px;
 
   .user-profile-container {
     display: flex;
@@ -177,7 +178,6 @@ onMounted(() => {
         content: "在线中";
         color: #00c800;
         opacity: 0;
-        display: block;
         transition: opacity 0.3s ease-in-out, color 0.1s ease-in-out;
       }
 
@@ -218,7 +218,10 @@ onMounted(() => {
       background: #ffcc00ad;
       height: 30%;
       width: 110%;
-      display: inline-block;
+      transition: height 0.3s ease-in-out;
+    }
+    &:hover::before {
+      height: 60%;
     }
   }
 
@@ -282,23 +285,19 @@ onMounted(() => {
 
         .tooltip {
           opacity: 1;
-          transform: translateY(0);
+          transform: translate(-50%, 0);
         }
       }
 
       .tooltip {
-        width: 120px;
         position: absolute;
-        z-index: 1;
         bottom: 100%;
         left: 50%;
+        transform: translate(-50%, 10px);
         opacity: 0;
-        margin-left: -60px;
         transition: opacity 0.3s ease, transform 0.3s ease;
-        transform: translateY(10px);
         white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
+        pointer-events: none;
       }
     }
 
@@ -361,10 +360,10 @@ onMounted(() => {
 }
 
 @media screen and (max-width: 768px) {
-  .home-container {
+  .content {
     gap: 15px;
   }
-  .home-container .user-profile-container {
+  .content .user-profile-container {
     flex-direction: column;
     gap: 0;
   }

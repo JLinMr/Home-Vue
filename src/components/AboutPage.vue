@@ -5,14 +5,14 @@
         <div class="tech-stack">
           <h3>使用的技术栈</h3>
           <ul>
-            <li v-for="tech in techStack" :key="tech" :class="tech.toLowerCase()">
-              <i :class="getIconClass(tech)"></i>
-              {{ tech }}
+            <li v-for="tech in techStack" :key="tech.name" :class="tech.name.toLowerCase()">
+              <i :class="tech.icon"></i>
+              {{ tech.name }}
             </li>
           </ul>
         </div>
         <div class="github-info">
-          <h3>项目开源地址</h3>
+          <h3>开源地址</h3>
           <a href="https://github.com/JLinMr/Home-Vue" target="_blank" class="github-link">
             <i class="fab fa-github"></i> Github
           </a>
@@ -24,7 +24,7 @@
               <div class="loading-spinner"></div>
             </li>
             <li v-for="(update, index) in lastUpdates" :key="index">
-              {{ update.message }} ({{ update.date }})
+              {{ update.message }} <span v-if="update.date"> ({{ update.date }})</span>
             </li>
           </ul>
         </div>
@@ -37,11 +37,17 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue';
+import { ref } from 'vue';
 
 const emit = defineEmits(['close']);
 
-const techStack = ref(['Vue3', 'Vite', 'CSS3', 'HTML5', 'JavaScript']);
+const techStack = [
+  { name: 'Vue3', icon: 'fab fa-vuejs' },
+  { name: 'Vite', icon: 'fas fa-bolt' },
+  { name: 'CSS3', icon: 'fab fa-css3-alt' },
+  { name: 'HTML5', icon: 'fab fa-html5' },
+  { name: 'JavaScript', icon: 'fab fa-js' }
+];
 const lastUpdates = ref([]);
 const loading = ref(true);
 
@@ -51,14 +57,10 @@ const fetchCommits = async () => {
   try {
     const response = await fetch('https://api.github.com/repos/JLinMr/Home-Vue/commits');
     const commits = await response.json();
-    if (commits.length > 0) {
-      lastUpdates.value = commits.slice(0, 3).map(commit => ({
-        message: commit.commit.message,
-        date: new Date(commit.commit.author.date).toLocaleDateString()
-      }));
-    } else {
-      lastUpdates.value = [{ message: '无更新信息', date: '' }];
-    }
+    lastUpdates.value = commits.slice(0, 3).map(commit => ({
+      message: commit.commit.message,
+      date: new Date(commit.commit.author.date).toLocaleDateString()
+    }));
   } catch (error) {
     console.error('获取更新信息失败', error);
     lastUpdates.value = [{ message: '无法获取更新信息', date: '' }];
@@ -67,18 +69,7 @@ const fetchCommits = async () => {
   }
 };
 
-onMounted(fetchCommits);
-
-const getIconClass = (tech) => {
-  const icons = {
-    'Vue3': 'fab fa-vuejs',
-    'Vite': 'fas fa-bolt',
-    'CSS3': 'fab fa-css3-alt',
-    'HTML5': 'fab fa-html5',
-    'JavaScript': 'fab fa-js'
-  };
-  return icons[tech] || 'fas fa-code';
-};
+fetchCommits();
 </script>
 
 <style scoped>
@@ -87,9 +78,11 @@ const getIconClass = (tech) => {
   max-width: 600px;
   background: var(--background-color);
   padding: 40px;
-  border-radius: 20px;
+  border-radius: var(--border-radius);
   box-shadow: 0 2px 8px var(--shadow-color);
   position: relative;
+  text-align: center;
+  box-sizing: border-box;
 
   @media (max-width: 600px) {
     padding: 20px;
@@ -112,7 +105,7 @@ h3 {
 
 .tech-stack li {
   padding: 10px 15px;
-  border-radius: 10px;
+  border-radius: var(--border-radius);
   transition: all 0.3s ease;
   display: flex;
   gap: 5px;
@@ -137,7 +130,7 @@ h3 {
   background-color: #040404d0;
   color: white;
   padding: 10px 20px;
-  border-radius: 10px;
+  border-radius: var(--border-radius);
   text-decoration: none;
   transition: background-color 0.3s ease;
 

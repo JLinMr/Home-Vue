@@ -86,6 +86,7 @@ fetchCommits();
 
   @media (max-width: 600px) {
     padding: 20px;
+    width: 90%;
     margin: auto;
   }
 }

@@ -6,7 +6,7 @@
           <h3>使用的技术栈</h3>
           <ul>
             <li v-for="tech in techStack" :key="tech.name" :class="tech.name.toLowerCase()">
-              <Icon :icon="tech.icon"></Icon>
+              <Icon :icon="tech.icon" inline />
               {{ tech.name }}
             </li>
           </ul>
@@ -14,7 +14,7 @@
         <div class="github-info">
           <h3>开源地址</h3>
           <a href="https://github.com/JLinMr/Home-Vue" target="_blank" class="github-link">
-            <Icon icon="fa6-brands:github" /> Github
+            <Icon icon="fa6-brands:github" inline /> Github
           </a>
         </div>
         <div class="update-info">
@@ -30,7 +30,7 @@
         </div>
       </div>
       <button @click="closeModal" class="close-btn">
-        <Icon icon="fa-solid:times" />
+        <Icon icon="fa-solid:times" inline />
       </button>
     </div>
   </div>
@@ -76,7 +76,7 @@ fetchCommits();
 .modal {
   width: 100%;
   max-width: 600px;
-  background: var(--background-color);
+  background-color: rgba(var(--background-color-rgb), 0.9);
   padding: 40px;
   border-radius: var(--border-radius);
   box-shadow: 0 2px 8px var(--shadow-color);
@@ -86,7 +86,6 @@ fetchCommits();
 
   @media (max-width: 600px) {
     padding: 20px;
-    width: 90%;
     margin: auto;
   }
 }

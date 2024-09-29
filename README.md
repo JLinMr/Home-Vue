@@ -10,7 +10,7 @@
 
 ### 修改
 
-图标采用 [Font Awesome](https://fontawesome.com/)，如需修改图标，请前往 [Font Awesome](https://fontawesome.com/) 官网复制图标
+图标采用 [iconify](https://iconify.design/)，如需修改图标，请前往 [iconify](https://iconify.design/)或[yesicon](https://yesicon.app/) 官网复制图标
 
 - 修改联系方式 **`src/config/links.json`** 文件中的内容值即可
 - 修改网站列表 **`src/config/site.json`** 文件中的内容值即可

@@ -7,7 +7,7 @@
             <div class="row">
               <div v-for="(site, i) in siteChunk" :key="i" class="site-box" @click="openLink(site.url)">
                 <div class="site-content">
-                  <Icon :icon="site.icon" aria-hidden="true" />
+                  <Icon :icon="site.icon" aria-hidden="true" inline />
                   <h3>{{ site.name }}</h3>
                 </div>
               </div>
@@ -100,9 +100,10 @@ onMounted(() => {
 
 .site-box {
   padding: 30px;
-  backdrop-filter: blur(6px);
+  backdrop-filter: blur(10px);
   border-radius: var(--border-radius);
   border: 1px solid var(--border-color);
+  background-color: rgba(var(--background-color-rgb), 0.2);
   text-align: center;
   width: calc(33.33% - 10px);
   cursor: pointer;

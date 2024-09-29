@@ -16,19 +16,20 @@
     <div class="contact-section" v-motion-pop>
       <template v-for="contact in contacts" :key="contact.type">
         <a v-if="contact.url" :href="contact.url" target="_blank" class="contact-item" :style="{ '--hover-color': contact.hoverColor }">
-          <Icon :icon="contact.icon" />
+          <Icon :icon="contact.icon" inline />
           <span class="tooltip">{{ contact.type }}</span>
         </a>
         <span v-else @click="toggleQRCode(contact.qrCode)" class="contact-item" :style="{ '--hover-color': contact.hoverColor }">
-          <Icon :icon="contact.icon" />
+          <Icon :icon="contact.icon" inline />
           <span class="tooltip">{{ contact.type }}</span>
         </span>
       </template>
       <span class="contact-item" @click="toggleDarkMode" :style="{ '--hover-color': isDarkMode ? '#ffcc00' : '#666' }">
-        <Icon :icon="darkModeIconClass" />
+        <Icon :icon="darkModeIconClass" inline />
         <span class="tooltip">{{ isDarkMode ? '浅色' : '深色' }}</span>
       </span>
     </div>
+
     <Website />
 
     <transition name="overlay-fade">
@@ -255,7 +256,7 @@ watchEffect(() => {
     display: flex;
     justify-content: center;
     gap: 20px;
-    padding: 8px 10px;
+    padding: 5px 10px;
     border: 1px solid transparent;
     border-radius: var(--border-radius);
     transition: all 0.3s ease-in-out;
@@ -267,6 +268,8 @@ watchEffect(() => {
       transition: transform 0.3s ease-in-out, color 0.3s ease-in-out;
       position: relative;
       display: flex;
+      height: 26px;
+      align-items: center;
 
       &:hover {
         transform: translateY(-5px) rotate(10deg);
@@ -291,9 +294,10 @@ watchEffect(() => {
     }
 
     &:hover {
-      backdrop-filter: blur(3px);
+      backdrop-filter: blur(10px);
       border: 1px solid var(--border-color);
       box-shadow: 0 2px 8px var(--shadow-color);
+      background-color: rgba(var(--background-color-rgb), 0.2);
     }
   }
 

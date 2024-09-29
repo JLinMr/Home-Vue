@@ -50,9 +50,7 @@ const techStack = [
 ];
 const lastUpdates = ref([]);
 const loading = ref(true);
-
 const closeModal = () => emit('close');
-
 const fetchCommits = async () => {
   try {
     const response = await fetch('https://api.github.com/repos/JLinMr/Home-Vue/commits');

@@ -16,20 +16,19 @@
     <div class="contact-section" v-motion-pop>
       <template v-for="contact in contacts" :key="contact.type">
         <a v-if="contact.url" :href="contact.url" target="_blank" class="contact-item" :style="{ '--hover-color': contact.hoverColor }">
-          <Icon :icon="contact.icon" inline />
+          <i :class="contact.icon"></i>
           <span class="tooltip">{{ contact.type }}</span>
         </a>
         <span v-else @click="toggleQRCode(contact.qrCode)" class="contact-item" :style="{ '--hover-color': contact.hoverColor }">
-          <Icon :icon="contact.icon" inline />
+          <i :class="contact.icon"></i>
           <span class="tooltip">{{ contact.type }}</span>
         </span>
       </template>
       <span class="contact-item" @click="toggleDarkMode" :style="{ '--hover-color': isDarkMode ? '#ffcc00' : '#666' }">
-        <Icon :icon="darkModeIconClass" inline />
+        <i :class="darkModeIconClass"></i>
         <span class="tooltip">{{ isDarkMode ? '浅色' : '深色' }}</span>
       </span>
     </div>
-
     <Website />
 
     <transition name="overlay-fade">
@@ -104,22 +103,25 @@ const toggleInfo = () => {
 };
 
 const isDarkMode = ref(false);
-const darkModeIconClass = ref('fa6-solid:moon');
+const darkModeIconClass = ref('fas fa-moon');
 
 const toggleDarkMode = () => {
   isDarkMode.value = !isDarkMode.value;
   document.body.classList.toggle('dark-mode', isDarkMode.value);
+
   localStorage.setItem('darkMode', isDarkMode.value);
-  darkModeIconClass.value = isDarkMode.value ? 'fa6-solid:sun' : 'fa6-solid:moon';
+
+  darkModeIconClass.value = isDarkMode.value ? 'fas fa-sun' : 'fas fa-moon';
 };
 
-watchEffect(() => {
+onMounted(() => {
   const savedDarkMode = localStorage.getItem('darkMode');
   if (savedDarkMode !== null) {
     isDarkMode.value = savedDarkMode === 'true';
     document.body.classList.toggle('dark-mode', isDarkMode.value);
-    darkModeIconClass.value = isDarkMode.value ? 'fa6-solid:sun' : 'fa6-solid:moon';
   }
+
+  darkModeIconClass.value = isDarkMode.value ? 'fas fa-sun' : 'fas fa-moon';
 });
 </script>
 
@@ -267,9 +269,14 @@ watchEffect(() => {
       cursor: pointer;
       transition: transform 0.3s ease-in-out, color 0.3s ease-in-out;
       position: relative;
-      display: flex;
-      height: 26px;
-      align-items: center;
+
+      .fas.fa-moon {
+        width: 20px;
+        height: 20px;
+        display: inline-flex;
+        justify-content: center;
+        align-items: center;
+      }
 
       &:hover {
         transform: translateY(-5px) rotate(10deg);
@@ -317,7 +324,6 @@ watchEffect(() => {
     width: 100%;
     height: 100%;
     background: rgba(0, 0, 0, 0.5);
-    backdrop-filter: blur(6px);
     display: flex;
     justify-content: center;
     align-items: center;

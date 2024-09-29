@@ -1,37 +1,37 @@
 [
-    {
-      "name": "恋爱",
-      "url": "https://love.bsgun.cn",
-      "icon": "fa6-solid:heart"
-    },
-    {
-      "name": "博客",
-      "url": "https://blog.bsgun.cn",
-      "icon": "fa6-solid:blog"
-    },
-    {
-      "name": "雨云",
-      "url": "https://www.rainyun.com/Lin_",
-      "icon": "fa6-solid:cloud"
-    },
-    {
-      "name": "图床",
-      "url": "https://dev.ruom.top",
-      "icon": "fa6-solid:image"
-    },
-    {
-      "name": "检测",
-      "url": "https://status.bsgun.cn/",
-      "icon": "fa-solid:check-circle"
-    },
-    {
-      "name": "封面",
-      "url": "https://cover.ruom.top",
-      "icon": "fa6-solid:panorama"
-    },
-    {
-      "name": "Alist",
-      "url": "https://alist.ruom.top",
-      "icon": "fa6-solid:cloud"
-    }
-  ]
+  {
+    "name": "恋爱",
+    "url": "https://love.bsgun.cn",
+    "icon": "fa fa-heart"
+  },
+  {
+    "name": "博客",
+    "url": "https://blog.bsgun.cn",
+    "icon": "fa fa-blog"
+  },
+  {
+    "name": "雨云",
+    "url": "https://www.rainyun.com/Lin_",
+    "icon": "fa fa-cloud "
+  },
+  {
+    "name": "图床",
+    "url": "https://dev.ruom.top",
+    "icon": "fa fa-image"
+  },
+  {
+    "name": "检测",
+    "url": "https://status.bsgun.cn/",
+    "icon": "fa fa-check-circle"
+  },
+  {
+    "name": "封面",
+    "url": "https://cover.ruom.top",
+    "icon": "fa fa-panorama"
+  },
+  {
+    "name": "Alist",
+    "url": "https://alist.ruom.top",
+    "icon": "fa fa-cloud"
+  }
+]

@@ -4,13 +4,13 @@
 
 ### Demo
 
->由于 CDN 缓存原因，查看最新效果可能需要 `Ctrl` + `F5` 强制刷新浏览器缓存
-
 - [预览](https://bsgun.cn)
 
 ### 修改
 
-图标采用 [iconify](https://iconify.design/)，如需修改图标，请前往 [iconify](https://iconify.design/)或[yesicon](https://yesicon.app/) 官网复制图标
+图标默认采用Font Awesome，如需修改图标，请前往 [Font Awesome](https://fa6.dashgame.com/) 复制图标
+
+或使用阿里云图标库 [iconfont](https://www.iconfont.cn/) 记得复制的图标前添加 `iconfont` 哦
 
 - 修改联系方式 **`src/config/links.json`** 文件中的内容值即可
 - 修改网站列表 **`src/config/site.json`** 文件中的内容值即可

@@ -7,7 +7,7 @@
             <div class="row">
               <div v-for="(site, i) in siteChunk" :key="i" class="site-box" @click="openLink(site.url)">
                 <div class="site-content">
-                  <Icon :icon="site.icon" aria-hidden="true" inline />
+                  <i :class="[site.icon]" aria-hidden="true"></i>
                   <h3>{{ site.name }}</h3>
                 </div>
               </div>
@@ -120,6 +120,10 @@ onMounted(() => {
   gap: 10px;
   justify-content: center;
   align-items: center;
+
+  i {
+    font-size: var(--icon-size);
+  }
 }
 
 h3 {

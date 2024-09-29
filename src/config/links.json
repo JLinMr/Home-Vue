@@ -1,25 +1,25 @@
 [
   {
     "type": "Email",
-    "icon": "fa6-solid:envelope",
+    "icon": "fas fa-envelope",
     "url": "mailto:i@ruom.top",
     "hoverColor": "#e78b0a"
   },
   {
     "type": "Github",
-    "icon": "fa6-brands:github",
+    "icon": "fab fa-github",
     "url": "https://github.com/JLinmr",
     "hoverColor": "#6500fc"
   },
   {
     "type": "支付宝",
-    "icon": "fa6-brands:alipay",
+    "icon": "fab fa-alipay",
     "qrCode": "https://cdn.bsgun.cn/Hexo-static/img/zfbzf.avif",
     "hoverColor": "#007aff"
   },
   {
     "type": "微信",
-    "icon": "fa6-brands:weixin",
+    "icon": "fab fa-weixin",
     "qrCode": "https://cdn.bsgun.cn/Hexo-static/img/wxzf.avif",
     "hoverColor": "#247700"
   }

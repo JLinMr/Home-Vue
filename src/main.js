@@ -1,11 +1,11 @@
 import { createApp } from 'vue';
 import App from './App.vue';
 import './style.less';
-import Vue3TypedJs from 'vue3-typed-js';
 import { MotionPlugin } from '@vueuse/motion';
+import { Icon } from '@iconify/vue';
 const app = createApp(App);
 
-app.use(Vue3TypedJs);
 app.use(MotionPlugin);
+app.component('Icon', Icon);
 
 app.mount('#app');

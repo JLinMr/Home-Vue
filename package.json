@@ -9,6 +9,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@iconify/vue": "^4.1.2",
     "@vueuse/motion": "^2.2.5",
     "less": "^4.2.0",
     "swiper": "^11.1.14",

@@ -6,7 +6,7 @@
           <h3>使用的技术栈</h3>
           <ul>
             <li v-for="tech in techStack" :key="tech.name" :class="tech.name.toLowerCase()">
-              <i :class="tech.icon"></i>
+              <Icon :icon="tech.icon"></Icon>
               {{ tech.name }}
             </li>
           </ul>
@@ -14,7 +14,7 @@
         <div class="github-info">
           <h3>开源地址</h3>
           <a href="https://github.com/JLinMr/Home-Vue" target="_blank" class="github-link">
-            <i class="fab fa-github"></i> Github
+            <Icon icon="fa6-brands:github" /> Github
           </a>
         </div>
         <div class="update-info">
@@ -30,7 +30,7 @@
         </div>
       </div>
       <button @click="closeModal" class="close-btn">
-        <i class="fas fa-times"></i>
+        <Icon icon="fa-solid:times" />
       </button>
     </div>
   </div>
@@ -42,11 +42,11 @@ import { ref } from 'vue';
 const emit = defineEmits(['close']);
 
 const techStack = [
-  { name: 'Vue3', icon: 'fab fa-vuejs' },
-  { name: 'Vite', icon: 'fas fa-bolt' },
-  { name: 'CSS3', icon: 'fab fa-css3-alt' },
-  { name: 'HTML5', icon: 'fab fa-html5' },
-  { name: 'JavaScript', icon: 'fab fa-js' }
+  { name: 'Vue3', icon: 'fa6-brands:vuejs' },
+  { name: 'Vite', icon: 'fa6-solid:bolt' },
+  { name: 'CSS3', icon: 'fa6-brands:css3-alt' },
+  { name: 'HTML5', icon: 'fa6-brands:html5' },
+  { name: 'JavaScript', icon: 'fa6-brands:js' }
 ];
 const lastUpdates = ref([]);
 const loading = ref(true);
@@ -110,6 +110,7 @@ h3 {
   display: flex;
   gap: 5px;
   flex-direction: column;
+  align-items: center;
 
   &:hover {
     background-color: var(--hover-other-color);
@@ -126,13 +127,15 @@ h3 {
 }
 
 .github-link {
-  display: inline-block;
+  display: flex;
   background-color: #040404d0;
   color: white;
   padding: 10px 20px;
   border-radius: var(--border-radius);
   text-decoration: none;
   transition: background-color 0.3s ease;
+  justify-content: center;
+  gap: 5px;
 
   &:hover {
     background-color: #1a1a1a;

@@ -16,17 +16,16 @@
     <div class="contact-section" v-motion-pop>
       <template v-for="contact in contacts" :key="contact.type">
         <a v-if="contact.url" :href="contact.url" target="_blank" class="contact-item" :style="{ '--hover-color': contact.hoverColor }">
-          <i :class="contact.icon"></i>
+          <Icon :icon="contact.icon" />
           <span class="tooltip">{{ contact.type }}</span>
         </a>
         <span v-else @click="toggleQRCode(contact.qrCode)" class="contact-item" :style="{ '--hover-color': contact.hoverColor }">
-          <i :class="contact.icon"></i>
+          <Icon :icon="contact.icon" />
           <span class="tooltip">{{ contact.type }}</span>
         </span>
       </template>
-      <!-- 添加切换深色浅色的按钮 -->
       <span class="contact-item" @click="toggleDarkMode" :style="{ '--hover-color': isDarkMode ? '#ffcc00' : '#666' }">
-        <i :class="darkModeIconClass"></i>
+        <Icon :icon="darkModeIconClass" />
         <span class="tooltip">{{ isDarkMode ? '浅色' : '深色' }}</span>
       </span>
     </div>
@@ -43,7 +42,7 @@
     <transition name="overlay-fade">
       <div v-show="showQR" class="overlay" @click="hideQRCode">
         <transition name="qr-fade">
-          <img ref="qrImageRef" v-if="showQR" :src="qrCodeSrc" alt="QR Code" class="qr-image" @click.stop>
+          <img v-if="showQR" :src="qrCodeSrc" alt="QR Code" class="qr-image" @click.stop>
         </transition>
       </div>
     </transition>
@@ -51,7 +50,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, watchEffect } from 'vue';
 import contactsData from '../config/links.json';
 import Website from './Website.vue';
 import AboutPage from './AboutPage.vue';
@@ -73,8 +72,10 @@ const predefinedDescriptions = [
   "I hope you have a happy day every day."
 ];
 
+let typedInstance = null;
+
 const initializeTyped = () => {
-  const typedInstance = new Typed(descriptionElement.value, {
+  typedInstance = new Typed(descriptionElement.value, {
     strings: predefinedDescriptions,
     typeSpeed: 120,
     backSpeed: 80,
@@ -82,7 +83,6 @@ const initializeTyped = () => {
     cursorChar: '|',
     loop: true,
   });
-  return typedInstance;
 };
 
 onMounted(() => {
@@ -103,25 +103,22 @@ const toggleInfo = () => {
 };
 
 const isDarkMode = ref(false);
-const darkModeIconClass = ref('fas fa-moon');
+const darkModeIconClass = ref('fa6-solid:moon');
 
 const toggleDarkMode = () => {
   isDarkMode.value = !isDarkMode.value;
   document.body.classList.toggle('dark-mode', isDarkMode.value);
-
   localStorage.setItem('darkMode', isDarkMode.value);
-
-  darkModeIconClass.value = isDarkMode.value ? 'fas fa-sun' : 'fas fa-moon';
+  darkModeIconClass.value = isDarkMode.value ? 'fa6-solid:sun' : 'fa6-solid:moon';
 };
 
-onMounted(() => {
+watchEffect(() => {
   const savedDarkMode = localStorage.getItem('darkMode');
   if (savedDarkMode !== null) {
     isDarkMode.value = savedDarkMode === 'true';
     document.body.classList.toggle('dark-mode', isDarkMode.value);
+    darkModeIconClass.value = isDarkMode.value ? 'fa6-solid:sun' : 'fa6-solid:moon';
   }
-
-  darkModeIconClass.value = isDarkMode.value ? 'fas fa-sun' : 'fas fa-moon';
 });
 </script>
 
@@ -258,7 +255,7 @@ onMounted(() => {
     display: flex;
     justify-content: center;
     gap: 20px;
-    padding: 5px 10px;
+    padding: 8px 10px;
     border: 1px solid transparent;
     border-radius: var(--border-radius);
     transition: all 0.3s ease-in-out;
@@ -268,16 +265,8 @@ onMounted(() => {
       font-size: var(--icon-size);
       cursor: pointer;
       transition: transform 0.3s ease-in-out, color 0.3s ease-in-out;
-      width: calc(33.33% - 10px);
       position: relative;
-
-      .fas.fa-moon {
-        width: 20px;
-        height: 20px;
-        display: inline-flex;
-        justify-content: center;
-        align-items: center;
-      }
+      display: flex;
 
       &:hover {
         transform: translateY(-5px) rotate(10deg);

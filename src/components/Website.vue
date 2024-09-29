@@ -7,7 +7,7 @@
             <div class="row">
               <div v-for="(site, i) in siteChunk" :key="i" class="site-box" @click="openLink(site.url)">
                 <div class="site-content">
-                  <i :class="[site.icon]" aria-hidden="true"></i>
+                  <Icon :icon="site.icon" aria-hidden="true" />
                   <h3>{{ site.name }}</h3>
                 </div>
               </div>
@@ -21,55 +21,51 @@
 </template>
 
 <script setup>
-import { ref, onMounted, nextTick } from 'vue';
+import { ref, onMounted } from 'vue';
 import Swiper from 'swiper/bundle';
 import 'swiper/swiper-bundle.css';
 import siteData from '../config/site.json';
 
 const allSites = ref(siteData);
 const chunkedSites = ref([]);
-let swiper = null;
 
 const chunkSites = () => {
   const chunkSize = 6;
-  for (let i = 0; i < allSites.value.length; i += chunkSize) {
-    chunkedSites.value.push(allSites.value.slice(i, i + chunkSize));
-  }
+  chunkedSites.value = allSites.value.reduce((acc, site, index) => {
+    const chunkIndex = Math.floor(index / chunkSize);
+    if (!acc[chunkIndex]) acc[chunkIndex] = [];
+    acc[chunkIndex].push(site);
+    return acc;
+  }, []);
 };
 
 const initSwiper = () => {
-  nextTick(() => {
-    swiper = new Swiper('.swiper-container', {
-      slidesPerView: 1,
-      spaceBetween: 20,
-      pagination: {
-        el: '.swiper-pagination',
-        clickable: true,
-      },
-      mousewheel: true,
-    });
+  new Swiper('.swiper-container', {
+    slidesPerView: 1,
+    spaceBetween: 20,
+    pagination: {
+      el: '.swiper-pagination',
+      clickable: true,
+    },
+    mousewheel: true,
   });
 };
 
-const openLink = (url) => {
-  window.open(url, '_blank');
-};
+const openLink = (url) => window.open(url, '_blank');
 
 onMounted(() => {
   chunkSites();
   initSwiper();
 
-  nextTick(() => {
-    const style = document.createElement('style');
-    style.innerHTML = `
-      span.swiper-pagination-bullet.swiper-pagination-bullet-active {
-        background: #8c8c8c94;
-        width: 20px;
-        border-radius: 5px;
-      }
-    `;
-    document.head.appendChild(style);
-  });
+  const style = document.createElement('style');
+  style.innerHTML = `
+    span.swiper-pagination-bullet.swiper-pagination-bullet-active {
+      background: #8c8c8c94;
+      width: 20px;
+      border-radius: 5px;
+    }
+  `;
+  document.head.appendChild(style);
 });
 </script>
 
@@ -123,10 +119,6 @@ onMounted(() => {
   gap: 10px;
   justify-content: center;
   align-items: center;
-
-  i {
-    font-size: var(--icon-size);
-  }
 }
 
 h3 {

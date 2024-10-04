@@ -1,21 +1,19 @@
 <template>
   <div class="container">
-    <div class="site-list-container">
-      <div class="swiper-container">
-        <div class="swiper-wrapper">
-          <div v-for="(siteChunk, index) in chunkedSites" :key="index" class="swiper-slide">
-            <div class="row">
-              <div v-for="(site, i) in siteChunk" :key="i" class="site-box" @click="openLink(site.url)">
-                <div class="site-content">
-                  <i :class="[site.icon]" aria-hidden="true"></i>
-                  <h3>{{ site.name }}</h3>
-                </div>
+    <div class="swiper-container">
+      <div class="swiper-wrapper">
+        <div v-for="(siteChunk, index) in chunkedSites" :key="index" class="swiper-slide">
+          <div class="site-grid">
+            <div v-for="(site, i) in siteChunk" :key="i" class="site-box" @click="openLink(site.url)">
+              <div class="site-content">
+                <i :class="site.icon" aria-hidden="true"></i>
+                <h3>{{ site.name }}</h3>
               </div>
             </div>
           </div>
         </div>
-        <div class="swiper-pagination"></div>
       </div>
+      <div class="swiper-pagination"></div>
     </div>
   </div>
 </template>
@@ -26,75 +24,47 @@ import Swiper from 'swiper/bundle';
 import 'swiper/swiper-bundle.css';
 import siteData from '../config/site.json';
 
-const allSites = ref(siteData);
-const chunkedSites = ref([]);
+const chunkedSites = ref(siteData.reduce((acc, site, index) => {
+  const chunkIndex = Math.floor(index / 6);
+  if (!acc[chunkIndex]) acc[chunkIndex] = [];
+  acc[chunkIndex].push(site);
+  return acc;
+}, []));
 
-const chunkSites = () => {
-  const chunkSize = 6;
-  chunkedSites.value = allSites.value.reduce((acc, site, index) => {
-    const chunkIndex = Math.floor(index / chunkSize);
-    if (!acc[chunkIndex]) acc[chunkIndex] = [];
-    acc[chunkIndex].push(site);
-    return acc;
-  }, []);
+const openLink = (url) => {
+  if (url) window.open(url, '_blank');
 };
 
-const initSwiper = () => {
+onMounted(() => {
   new Swiper('.swiper-container', {
     slidesPerView: 1,
     spaceBetween: 20,
-    pagination: {
-      el: '.swiper-pagination',
-      clickable: true,
-    },
+    pagination: { el: '.swiper-pagination', clickable: true },
     mousewheel: true,
   });
-};
-
-const openLink = (url) => window.open(url, '_blank');
-
-onMounted(() => {
-  chunkSites();
-  initSwiper();
-
-  const style = document.createElement('style');
-  style.innerHTML = `
-    span.swiper-pagination-bullet.swiper-pagination-bullet-active {
-      background: #8c8c8c94;
-      width: 20px;
-      border-radius: 5px;
-    }
-  `;
-  document.head.appendChild(style);
 });
 </script>
+
 
 <style scoped>
 .container {
   max-width: 700px;
   width: 100%;
-}
-
-.site-list-container {
-  position: relative;
+  margin: 30px 0 20px;
 }
 
 .swiper-container {
   overflow: hidden;
-}
-
-.swiper-slide {
   padding: 10px;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
 }
 
-.row {
-  display: flex;
-  justify-content: center;
-  flex-wrap: wrap;
-  margin: 30px 0 20px 0;
+.swiper-pagination {
+  bottom: inherit;
+}
+
+.site-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
   gap: 15px;
 }
 
@@ -104,8 +74,6 @@ onMounted(() => {
   border-radius: var(--border-radius);
   border: 1px solid var(--border-color);
   background-color: rgba(var(--background-color-rgb), 0.2);
-  text-align: center;
-  width: calc(33.33% - 10px);
   cursor: pointer;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 
@@ -148,5 +116,13 @@ h3 {
   .site-content i {
     font-size: 18px;
   }
+}
+</style>
+
+<style>
+.swiper-pagination-bullet-active {
+  background: #8c8c8c94;
+  width: 20px;
+  border-radius: 5px;
 }
 </style>

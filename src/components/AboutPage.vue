@@ -72,9 +72,7 @@ fetchCommits();
 
 <style scoped>
 .modal {
-  width: 100%;
-  max-width: 500px;
-  min-width: 500px;
+  width: 500px;
   backdrop-filter: blur(5px);
   background-color: rgba(var(--background-color-rgb), 0.9);
   padding: 40px;

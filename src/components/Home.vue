@@ -50,7 +50,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted, watchEffect } from 'vue';
+import { ref, onMounted } from 'vue';
 import contactsData from '../config/links.json';
 import Website from './Website.vue';
 import AboutPage from './AboutPage.vue';

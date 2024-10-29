@@ -1,11 +1,11 @@
 <template>
-  <div @click.stop>
-    <div class="modal">
-      <div class="modal-content">
+  <div class="about-page" @click.stop>
+    <div class="about-modal">
+      <div class="about-modal-content">
         <div class="tech-stack">
           <h3>使用的技术栈</h3>
-          <ul>
-            <li v-for="tech in techStack" :key="tech.name" :class="tech.name.toLowerCase()">
+          <ul class="tech-list">
+            <li v-for="tech in techStack" :key="tech.name" :class="['tech-item', tech.name.toLowerCase()]">
               <i :class="tech.icon"></i>
               {{ tech.name }}
             </li>
@@ -19,11 +19,11 @@
         </div>
         <div class="update-info">
           <h3>最近更新</h3>
-          <ul>
+          <ul class="update-list">
             <li v-if="loading" class="loading-item">
               <div class="loading-spinner"></div>
             </li>
-            <li v-for="(update, index) in lastUpdates" :key="index">
+            <li v-for="(update, index) in lastUpdates" :key="index" class="update-item">
               {{ update.message }} <span v-if="update.date"> ({{ update.date }})</span>
             </li>
           </ul>
@@ -71,7 +71,7 @@ fetchCommits();
 </script>
 
 <style scoped>
-.modal {
+.about-page {
   width: 500px;
   backdrop-filter: blur(5px);
   background-color: rgba(var(--background-color-rgb), 0.9);
@@ -93,31 +93,38 @@ h3 {
   padding-bottom: 10px;
 }
 
-.tech-stack ul {
+.tech-stack ul,
+.tech-list {
   display: flex;
   gap: 5px;
   flex-wrap: wrap;
   justify-content: center;
 }
 
-.tech-stack li {
+.tech-stack li,
+.tech-item {
   padding: 10px 15px;
   border-radius: var(--border-radius);
   transition: all 0.3s ease;
   display: flex;
   gap: 5px;
   flex-direction: column;
+}
 
-  &:hover {
-    background-color: var(--hover-other-color);
-    color: var(--hover-link-color);
-  }
+.tech-stack li:hover,
+.tech-item:hover {
+  background-color: var(--hover-other-color);
+  color: var(--hover-link-color);
+}
 
-  i {
-    font-size: 1.5em;
-  }
+.tech-stack li i,
+.tech-item i {
+  font-size: 1.5em;
+}
 
-  @media (max-width: 600px) {
+@media (max-width: 600px) {
+  .tech-stack li,
+  .tech-item {
     font-size: 0.8em;
   }
 }
@@ -136,7 +143,8 @@ h3 {
   }
 }
 
-.update-info ul {
+.update-info ul,
+.update-list {
   display: flex;
   flex-direction: column;
   gap: 5px;
@@ -192,7 +200,7 @@ h3 {
   to { opacity: 1; transform: translateY(0); }
 }
 
-.modal-content > div {
+.about-modal-content > div {
   display: flex;
   flex-direction: column;
   animation: fadeIn 0.5s ease-out forwards;
@@ -201,5 +209,10 @@ h3 {
   &:nth-child(1) { animation-delay: 0.2s; }
   &:nth-child(2) { animation-delay: 0.3s; }
   &:nth-child(3) { animation-delay: 0.4s; }
+}
+
+.update-item {
+  width: 100%;
+  text-align: center;
 }
 </style>

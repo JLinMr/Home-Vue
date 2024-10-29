@@ -7,7 +7,7 @@
             <div v-for="(site, i) in siteChunk" :key="i" class="site-box" @click="openLink(site.url)">
               <div class="site-content">
                 <i :class="site.icon" aria-hidden="true"></i>
-                <h3>{{ site.name }}</h3>
+                <span class="site-name">{{ site.name }}</span>
               </div>
             </div>
           </div>
@@ -94,8 +94,10 @@ onMounted(() => {
   }
 }
 
-h3 {
+.site-name {
   margin: 0;
+  font-size: 1.17em;
+  font-weight: bold;
 }
 
 @media screen and (max-width: 768px) {
@@ -109,7 +111,7 @@ h3 {
     border-radius: 8px;
   }
 
-  h3 {
+  .site-name {
     font-size: 16px;
   }
 
@@ -117,10 +119,8 @@ h3 {
     font-size: 18px;
   }
 }
-</style>
 
-<style>
-.swiper-pagination-bullet-active {
+:deep(.swiper-pagination-bullet-active) {
   background: #8c8c8c94;
   width: 20px;
   border-radius: 5px;

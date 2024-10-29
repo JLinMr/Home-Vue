@@ -31,21 +31,21 @@
     </div>
     <Website />
 
-    <transition name="overlay-fade">
-      <div v-show="showAbout" class="overlay" @click="showAbout = false">
-        <transition name="qr-fade">
-          <AboutPage @close="showAbout = false" v-if="showAbout" />
-        </transition>
+    <Transition name="fade">
+      <div v-if="showAbout" class="overlay" @click="showAbout = false">
+        <div class="modal-content">
+          <AboutPage @close="showAbout = false" />
+        </div>
       </div>
-    </transition>
+    </Transition>
 
-    <transition name="overlay-fade">
-      <div v-show="showQR" class="overlay" @click="hideQRCode">
-        <transition name="qr-fade">
-          <img v-if="showQR" :src="qrCodeSrc" alt="QR Code" class="qr-image" @click.stop>
-        </transition>
+    <Transition name="fade">
+      <div v-if="showQR" class="overlay" @click="hideQRCode">
+        <div class="modal-content">
+          <img :src="qrCodeSrc" alt="QR Code" class="qr-image" @click.stop>
+        </div>
       </div>
-    </transition>
+    </Transition>
   </div>
 </template>
 
@@ -323,38 +323,55 @@ onMounted(() => {
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(0, 0, 0, 0.5);
+    background: rgba(0, 0, 0, 0.6);
     display: flex;
     justify-content: center;
     align-items: center;
     z-index: 1000;
+  }
 
-    &.overlay-fade-enter-active,
-    &.overlay-fade-leave-active {
-      transition: opacity 0.3s ease;
-    }
-
-    &.overlay-fade-enter-from,
-    &.overlay-fade-leave-to {
-      opacity: 0;
+  .fade-enter-active,
+  .fade-leave-active {
+    transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+    .modal-content {
+      transition: all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
     }
   }
 
-  .qr-fade-enter-active,
-  .qr-fade-leave-active {
-    transition: opacity 0.3s ease, transform 0.3s ease;
-  }
-
-  .qr-fade-enter-from,
-  .qr-fade-leave-to {
+  .fade-enter-from {
     opacity: 0;
-    transform: scale(0.8) translateY(50px);
+    .modal-content {
+      transform: translate3d(0, -100px, 200px) rotate3d(1, 0, 0.5, 45deg) scale(0.7);
+      opacity: 0;
+      filter: blur(10px);
+    }
   }
 
-  .qr-fade-enter-to,
-  .qr-fade-leave-from {
+  .fade-leave-to {
+    opacity: 0;
+    .modal-content {
+      transform: translate3d(0, 100px, -200px) rotate3d(-1, 0, -0.5, 45deg) scale(0.5);
+      opacity: 0;
+      filter: blur(10px);
+    }
+  }
+
+  .fade-enter-to,
+  .fade-leave-from {
     opacity: 1;
-    transform: scale(1) translateY(0);
+    .modal-content {
+      transform: translate3d(0, 0, 0) rotate3d(0, 0, 0, 0) scale(1);
+      opacity: 1;
+      filter: blur(0);
+    }
+  }
+
+  .qr-image {
+    transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+    &:hover {
+      transform: scale(1.03) translateY(-5px);
+      box-shadow: 0 15px 30px -10px rgba(0, 0, 0, 0.2);
+    }
   }
 }
 

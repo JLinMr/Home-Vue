@@ -20,11 +20,6 @@
     "icon": "fa fa-image"
   },
   {
-    "name": "检测",
-    "url": "https://status.bsgun.cn/",
-    "icon": "fa fa-check-circle"
-  },
-  {
     "name": "封面",
     "url": "https://cover.ruom.top",
     "icon": "fa fa-panorama"

@@ -308,15 +308,6 @@ onMounted(() => {
     }
   }
 
-  .qr-image {
-    width: 300px;
-    height: 300px;
-    background: white;
-    padding: 20px;
-    border-radius: var(--border-radius);
-    box-shadow: 0 4px 8px var(--shadow-color);
-  }
-
   .overlay {
     position: fixed;
     top: 0;
@@ -332,41 +323,40 @@ onMounted(() => {
 
   .fade-enter-active,
   .fade-leave-active {
-    transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: all 0.3s ease-out;
+    
     .modal-content {
-      transition: all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+      transition: all 0.3s ease-out;
     }
   }
 
-  .fade-enter-from {
-    opacity: 0;
-    .modal-content {
-      transform: translate3d(0, -100px, 200px) rotate3d(1, 0, 0.5, 45deg) scale(0.7);
-      opacity: 0;
-      filter: blur(10px);
-    }
-  }
-
+  .fade-enter-from,
   .fade-leave-to {
     opacity: 0;
+    
     .modal-content {
-      transform: translate3d(0, 100px, -200px) rotate3d(-1, 0, -0.5, 45deg) scale(0.5);
+      transform: translateY(30px) scale(0.8);
       opacity: 0;
-      filter: blur(10px);
     }
   }
 
   .fade-enter-to,
   .fade-leave-from {
     opacity: 1;
+    
     .modal-content {
-      transform: translate3d(0, 0, 0) rotate3d(0, 0, 0, 0) scale(1);
+      transform: translateY(0) scale(1);
       opacity: 1;
-      filter: blur(0);
     }
   }
 
   .qr-image {
+    width: 300px;
+    height: 300px;
+    background: white;
+    padding: 20px;
+    border-radius: var(--border-radius);
+    box-shadow: 0 4px 8px var(--shadow-color);
     transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
     &:hover {
       transform: scale(1.03) translateY(-5px);

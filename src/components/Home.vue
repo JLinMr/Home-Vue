@@ -29,7 +29,8 @@
         <span class="tooltip">{{ isDarkMode ? '浅色' : '深色' }}</span>
       </span>
     </div>
-    <Website />
+    <Website /> 
+    <VisitTimer />
 
     <Transition name="fade">
       <div v-if="showAbout" class="overlay" @click="showAbout = false">
@@ -54,6 +55,7 @@ import { ref, onMounted } from 'vue';
 import contactsData from '../config/links.json';
 import Website from './Website.vue';
 import AboutPage from './AboutPage.vue';
+import VisitTimer from './VisitTimer.vue';
 import Typed from 'typed.js';
 
 const contacts = ref(contactsData);

@@ -115,6 +115,11 @@ const toggleCalendar = () => {
   pointer-events: none;
   width: 100%;
   height: 0;
+
+  /* 在移动端隐藏组件 */
+  @media (max-width: 768px) {
+    display: none;
+  }
 }
 
 .visit-timer, .calendar-popup {

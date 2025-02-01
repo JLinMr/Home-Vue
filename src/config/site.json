@@ -28,10 +28,5 @@
     "name": "监测",
     "url": "https://status.bsgun.cn",
     "icon": "fa fa-chart-line"
-  },
-  {
-    "name": "Alist",
-    "url": "https://alist.ruom.top",
-    "icon": "fa fa-cloud"
   }
 ]

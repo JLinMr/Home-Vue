@@ -1,10 +1,5 @@
 [
   {
-    "name": "恋爱",
-    "url": "https://love.bsgun.cn",
-    "icon": "fa fa-heart"
-  },
-  {
     "name": "博客",
     "url": "https://blog.bsgun.cn",
     "icon": "fa fa-blog"
@@ -28,5 +23,10 @@
     "name": "监测",
     "url": "https://status.bsgun.cn",
     "icon": "fa fa-chart-line"
+  },
+  {
+    "name": "图标",
+    "url": "https://icon.ruom.top/",
+    "icon": "fa fa-icons"
   }
 ]

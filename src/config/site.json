@@ -11,12 +11,12 @@
   },
   {
     "name": "图床",
-    "url": "https://dev.ruom.top",
+    "url": "https://dev.bsgun.cn",
     "icon": "fa fa-image"
   },
   {
     "name": "封面",
-    "url": "https://cover.ruom.top",
+    "url": "https://cover.bsgun.cn",
     "icon": "fa fa-panorama"
   },
   {
@@ -26,7 +26,7 @@
   },
   {
     "name": "图标",
-    "url": "https://icon.ruom.top/",
+    "url": "https://icon.bsgun.cn/",
     "icon": "fa fa-icons"
   }
 ]
